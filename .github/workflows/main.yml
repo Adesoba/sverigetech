@@ -3,14 +3,23 @@ name: Upload Website
 on:
   push:
     branches:
-    - main
+      - main
 
 jobs:
-  deploy:
-    runs-on: 'node16'
+  Deploy:
+    runs-on: ubuntu-latest
     steps:
     - name: Checkout
       uses: actions/checkout@v2
+      
+    - name: Setup node
+      uses: actions/setup-node@v2
+      
+    - name: Install dependencies
+      run: npm install
+      
+    - name: Build static file
+      run: npm run build
 
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
@@ -20,4 +29,4 @@ jobs:
         aws-region: eu-north-1
 
     - name: Deploy static site to S3 bucket
-      run: aws s3 sync ./public/ s3://sverigetech --delete
+      run: aws s3 sync ./public/ s3://sverigetech
