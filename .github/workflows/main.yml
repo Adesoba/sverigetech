@@ -20,7 +20,7 @@ jobs:
     - name: Install dependencies
       with:
         node-version: '16'
-        run: npm install
+        uses: npm install
       
         
     - name: Build static file
